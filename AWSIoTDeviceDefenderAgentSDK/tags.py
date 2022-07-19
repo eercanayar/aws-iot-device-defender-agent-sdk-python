@@ -39,7 +39,8 @@ class Tags(object):
     PACKETS_OUT = ("packets_out", "po")
     TOTAL = ("total", "t")
     CUSTOM_METRICS = ("custom_metrics", "cmet")
-    CPU_USAGE = "cpu_usage"
+    GPU_LOAD_PER_INFERENCE = "gpu_load_per_inference"
+    AVG_INFERENCE_TIME = "avg_inference_time"
 
     def __init__(self, short_names=False):
         self.short_names = short_names
@@ -131,8 +132,12 @@ class Tags(object):
         return self.get(self.TOTAL)
 
     @property
-    def cpu_usage(self):
-        return self.CPU_USAGE
+    def gpu_load_per_inference(self):
+        return self.GPU_LOAD_PER_INFERENCE
+
+    @property
+    def avg_inference_time(self):
+        return self.AVG_INFERENCE_TIME
 
     @property
     def custom_metrics(self):
