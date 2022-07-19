@@ -60,7 +60,8 @@ class Metrics(object):
         self.listening_udp_ports = []
 
         # Custom Metrics
-        self.cpu_metrics = []
+        self.avg_inference_time_metrics = []
+        self.gpu_load_per_inference_metrics = []
 
         # Network Stats By Interface
         self.total_counts = {}  # The raw values from the system
@@ -174,17 +175,12 @@ class Metrics(object):
         if new_conn not in self._net_connections:
             self._net_connections.append(new_conn)
 
-    def add_cpu_usage(self, cpu_usage):
-        """
-        Add cpu usage detials.
 
-        Parameters
-        ----------
-        cpu_uage: float
-             representing the current system-wide CPU utilization as a percentage
-        """
-        self.cpu_metrics = {"number": cpu_usage}
-
+    def add_gpu_load_per_inference(self, gpu_load_per_inference):
+        self.gpu_load_per_inference_metrics = {"number": gpu_load_per_inference}
+    
+    def add_avg_inference_time(self, avg_inference_time):
+        self.avg_inference_time_metrics = {"number": avg_inference_time}
 
     @property
     def network_connections(self):
@@ -258,7 +254,7 @@ class Metrics(object):
         report = {t.header: header,
                   t.metrics: metrics}
 
-        if self.cpu_metrics:
-            report[t.custom_metrics] = {t.cpu_usage: [self.cpu_metrics]}
+        if self.avg_inference_time_metrics:
+            report[t.custom_metrics] = {t.avg_inference_time: [self.avg_inference_time_metrics], t.gpu_load_per_inference: [self.gpu_load_per_inference_metrics]}
 
         return report

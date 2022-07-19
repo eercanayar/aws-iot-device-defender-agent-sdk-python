@@ -17,7 +17,7 @@ import socket
 from AWSIoTDeviceDefenderAgentSDK import metrics
 import argparse
 from time import sleep
-
+import random
 
 class Collector(object):
     """
@@ -98,9 +98,14 @@ class Collector(object):
                     print(ex)
 
     @staticmethod
-    def cpu_usage(metrics):
-        cpu_percent = ps.cpu_percent(interval=None)
-        metrics.add_cpu_usage(cpu_percent)
+    def gpu_load_per_inference(metrics):
+        # TODO: read from file
+        metrics.add_gpu_load_per_inference(random.randint(1, 10))
+
+    @staticmethod
+    def avg_inference_time(metrics):
+        # TODO: read from file
+        metrics.add_avg_inference_time(random.randint(40, 70))
 
     def collect_metrics(self):
         """Sample system metrics and populate a metrics object suitable for publishing to Device Defender."""
@@ -112,7 +117,8 @@ class Collector(object):
         self.network_connections(metrics_current)
 
         if self._use_custom_metrics:
-            self.cpu_usage(metrics_current)
+            self.gpu_load_per_inference(metrics_current)
+            self.avg_inference_time(metrics_current)
 
         self._last_metric = metrics_current
         return metrics_current
