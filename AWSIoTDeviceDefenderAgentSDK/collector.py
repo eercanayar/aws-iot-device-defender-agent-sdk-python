@@ -100,7 +100,7 @@ class Collector(object):
     @staticmethod
     def gpu_load_per_inference(metrics):
         try:
-            f = open("/dev/gpu_load_fb", "r")
+            f = open("/var/gpu_load_fb", "r")
             value = f.read().strip()
         except:
             value = 0
@@ -109,7 +109,7 @@ class Collector(object):
     @staticmethod
     def avg_inference_time(metrics):
         try:
-            f = open("/dev/gpu_inference_fb", "r")
+            f = open("/var/gpu_inference_fb", "r")
             value = f.read().strip()
         except:
             value = 0
