@@ -99,13 +99,21 @@ class Collector(object):
 
     @staticmethod
     def gpu_load_per_inference(metrics):
-        # TODO: read from file
-        metrics.add_gpu_load_per_inference(random.randint(1, 10))
+        try:
+            f = open("/dev/gpu_load_fb", "r")
+            value = f.read().strip()
+        except:
+            value = 0
+        metrics.add_gpu_load_per_inference(value)
 
     @staticmethod
     def avg_inference_time(metrics):
-        # TODO: read from file
-        metrics.add_avg_inference_time(random.randint(40, 70))
+        try:
+            f = open("/dev/gpu_inference_fb", "r")
+            value = f.read().strip()
+        except:
+            value = 0
+        metrics.add_avg_inference_time(value)
 
     def collect_metrics(self):
         """Sample system metrics and populate a metrics object suitable for publishing to Device Defender."""
